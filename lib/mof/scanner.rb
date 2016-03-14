@@ -125,7 +125,7 @@ module Scanner
 #	$stderr.puts ":string(#{scanner[1]})"
 	@q.push [:stringValue, scanner[1]]
 
-      when m = scanner.scan(%r{\w+})
+      when m = scanner.scan(%r{[\w.]+})
 	case m.downcase
 	when "amended" then @q.push [:AMENDED, m]
 	when "any" then @q.push [:ANY, m]
@@ -144,10 +144,10 @@ module Scanner
 	when "sint64" then @q.push [:DT_SINT64, CIM::Type.new(m)]
 	when "sint8" then @q.push [:DT_SINT8, CIM::Type.new(m)]
 	when "string" then @q.push [:DT_STR, CIM::Type.new(m)]
-	when "uint16" then @q.push [:DT_UINT16, CIM::Type.new(m)]
-	when "uint32" then @q.push [:DT_UINT32, CIM::Type.new(m)]
-	when "uint64" then @q.push [:DT_UINT64, CIM::Type.new(m)]
-	when "uint8" then @q.push [:DT_UINT8, CIM::Type.new(m)]
+	when "uint16","system.uint16" then @q.push [:DT_UINT16, CIM::Type.new("uint16")]
+	when "uint32","system.uint32" then @q.push [:DT_UINT32, CIM::Type.new("uint32")]
+	when "uint64","system.uint64" then @q.push [:DT_UINT64, CIM::Type.new("uint64")]
+	when "uint8","system.uint8" then @q.push [:DT_UINT8, CIM::Type.new("uint8")]
 	when "enableoverride" then @q.push [:ENABLEOVERRIDE, m]
 	when "false" then @q.push [:booleanValue, false]
 	when "flavor" then @q.push [:FLAVOR, nil]
